@@ -2,21 +2,22 @@ import java.util.Scanner;
 
 public class Chani {
     public static void main(String[] args) {
+        String botName = "Chani";
         Scanner scanner = new Scanner(System.in);
 
-        String greeting = "Hello! I'm Chani\n" +
-                "What can I do for you?\n";
+        String greeting = String.format("%s: Hello! I'm %s. How may I be of service?", botName, botName);
+
         System.out.println(greeting);
 
         while (true) {
             String input = scanner.nextLine();
 
             if (input.equalsIgnoreCase("bye")) {
-                System.out.println("Chani: Bye ;) Hope to see you again soon!");
+                System.out.println(botName + ": Bye ;) Hope to see you again soon!");
                 break;
             }
 
-            System.out.println("Chani: " + input);
+            System.out.println(botName + ": " + input);
         }
     }
 }
