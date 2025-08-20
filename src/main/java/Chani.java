@@ -90,6 +90,14 @@ public class Chani {
                     System.out.println(event);
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                     break;
+                } case "delete": {
+                    int taskId = Integer.parseInt(commandRest[1]);
+                    Task toDelete = tasks.get(taskId);
+                    tasks.remove(toDelete);
+                    System.out.println("Noted. I've removed this task:\n" +
+                            toDelete +
+                            "Now you have " + tasks.size() + " tasks in the list.");
+                    break;
                 } default:
                     try {
                         throw new ChaniException("OOPS!!! I'm sorry, but I don't know what that means :-(");
