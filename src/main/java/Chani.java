@@ -41,23 +41,45 @@ public class Chani {
                     System.out.println("    " + taskToUnMark);
                     break;
                 } case "todo": {
-                    String description = commandRest[1];
-                    Task toDo = new ToDos(description);
-                    tasks[count] = toDo;
-                    count++;
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(toDo);
-                    System.out.println("Now you have " + count + " tasks in the list.");
+                    try {
+                        if (commandRest.length < 2 || commandRest[1].trim().isEmpty()) {
+                            throw new ChaniException("Invalid Command: The description of a todo cannot be empty.\n" +
+                                    "Follow this convention: todo <desc>");
+                        }
+                        String description = commandRest[1];
+                        Task toDo = new ToDos(description);
+                        tasks[count] = toDo;
+                        count++;
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println(toDo);
+                        System.out.println("Now you have " + count + " tasks in the list.");
+                    } catch (ChaniException e) {
+                        System.out.println("    " + e.getMessage());
+                    }
                     break;
                 } case "deadline": {
-                    String rest = commandRest[1];
+                    try {
+                        if (commandRest.length < 2 || commandRest[1].trim().isEmpty()) {
+                            throw new ChaniException("Invalid Command: The description and by date are missing.\n" +
+                                    "Use: deadline <desc> /by <date>");
+                        }
+
+                        String rest = commandRest[1];
                     String[] descBy = rest.split(" /by ", 2);
-                    Task deadline = new Deadline(descBy[0], descBy[1]);
+                        if (descBy.length < 2 || descBy[1].trim().isEmpty()) {
+                            throw new ChaniException("Invalid Command: The by date is missing.\n" +
+                                    "d: deadline <desc> /by <date>");
+                        }
+
+                        Task deadline = new Deadline(descBy[0], descBy[1]);
                     tasks[count] = deadline;
                     count++;
                     System.out.println("Got it. I've added this task:");
                     System.out.println(deadline);
                     System.out.println("Now you have " + count + " tasks in the list.");
+                    } catch (ChaniException e) {
+                        System.out.println("    " + e.getMessage());
+                    }
 
                     break;
                 } case "event": {
@@ -72,6 +94,11 @@ public class Chani {
                     System.out.println(event);
                     System.out.println("Now you have " + count + " tasks in the list.");
                 } default:
+                    try {
+                        throw new ChaniException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    } catch (ChaniException e) {
+                        System.out.println("    " + e.getMessage());
+                    }
             }
         }
     }
