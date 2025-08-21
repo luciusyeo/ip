@@ -1,46 +1,44 @@
-import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Chani {
     public static void main(String[] args) {
-        final String BOT_NAME = "Chani";
-        Scanner scanner = new Scanner(System.in);
-
+        Ui ui = new Ui("Chani");
         ArrayList<Task> tasks = new ArrayList<>();
 
-        String greeting = String.format("Hello! I'm %s\nWhat can I do for you?", BOT_NAME);
-        System.out.println(greeting);
+        ui.showGreeting();
 
         while (true) {
-            String input = scanner.nextLine();
+            String input = ui.readInput();
             String[] commandRest = input.split(" ", 2);
             String command = commandRest[0];
 
             switch(command) {
                 case "list":
+                    StringBuilder taskMessage = new StringBuilder();
                     for (int i = 0; i < tasks.size(); i ++) {
                         int numbering = i + 1;
-                        System.out.println(numbering + ". " + tasks.get(i));
+                        taskMessage.append(String.format("%d. %s\n", numbering, tasks.get(i)));
                     }
+                    ui.showList(taskMessage.toString());
                     break;
                 case "bye":
-                    System.out.println("Bye. Hope to see you again soon!");
+                    ui.showGoodbye();
                     return;
                 case "mark": {
                     int taskId = Integer.parseInt(commandRest[1]);
                     Task taskToMark = tasks.get(taskId - 1);
                     taskToMark.markAsDone();
-                    System.out.println("Nice! I've marked this task as done:");
-                    System.out.println("    " + taskToMark);
+                    ui.showMarkedTask(taskToMark);
                     break;
-                } case "unmark": {
+                }
+                case "unmark": {
                     int taskId = Integer.parseInt(commandRest[1]);
                     Task taskToUnMark = tasks.get(taskId - 1);
                     taskToUnMark.markAsUnDone();
-                    System.out.println("Nice! I've marked this task as not done yet:");
-                    System.out.println("    " + taskToUnMark);
+                    ui.showUnmarkedTask(taskToUnMark);
                     break;
-                } case "todo": {
+                }
+                case "todo": {
                     try {
                         if (commandRest.length < 2 || commandRest[1].trim().isEmpty()) {
                             throw new ChaniException("Invalid Command: The description of a todo cannot be empty.\n" +
@@ -49,14 +47,13 @@ public class Chani {
                         String description = commandRest[1];
                         Task toDo = new ToDos(description);
                         tasks.add(toDo);
-                        System.out.println("Got it. I've added this task:");
-                        System.out.println(toDo);
-                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                        ui.showAddedTask(toDo, tasks.size());
                     } catch (ChaniException e) {
-                        System.out.println("    " + e.getMessage());
+                        ui.showError(e.getMessage());
                     }
                     break;
-                } case "deadline": {
+                }
+                case "deadline": {
                     try {
                         if (commandRest.length < 2 || commandRest[1].trim().isEmpty()) {
                             throw new ChaniException("Invalid Command: The description and by date are missing.\n" +
@@ -64,46 +61,44 @@ public class Chani {
                         }
 
                         String rest = commandRest[1];
-                    String[] descBy = rest.split(" /by ", 2);
+                        String[] descBy = rest.split(" /by ", 2);
                         if (descBy.length < 2 || descBy[1].trim().isEmpty()) {
                             throw new ChaniException("Invalid Command: The by date is missing.\n" +
-                                    "d: deadline <desc> /by <date>");
+                                    "Use: deadline <desc> /by <date>");
                         }
 
                         Task deadline = new Deadline(descBy[0], descBy[1]);
-                    tasks.add(deadline);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(deadline);
-                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                        tasks.add(deadline);
+                        ui.showAddedTask(deadline, tasks.size());
                     } catch (ChaniException e) {
-                        System.out.println("    " + e.getMessage());
+                        ui.showError(e.getMessage());
                     }
                     break;
-                } case "event": {
+                }
+                case "event": {
                     String rest = commandRest[1];
                     String[] descriptionRest = rest.split(" /from ", 2);
                     String[] fromTo = descriptionRest[1].split(" /to ", 2);
 
                     Task event = new Event(descriptionRest[0], fromTo[0], fromTo[1]);
                     tasks.add(event);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(event);
-                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    ui.showAddedTask(event, tasks.size());
                     break;
-                } case "delete": {
+                }
+                case "delete": {
                     int taskId = Integer.parseInt(commandRest[1]);
-                    Task toDelete = tasks.get(taskId);
+                    Task toDelete = tasks.get(taskId - 1);  // ⚠️ careful: was missing -1
                     tasks.remove(toDelete);
-                    System.out.println("Noted. I've removed this task:\n" +
-                            toDelete +
-                            "Now you have " + tasks.size() + " tasks in the list.");
+                    ui.showDeletedTask(toDelete, tasks.size());
                     break;
-                } default:
+                }
+                default: {
                     try {
                         throw new ChaniException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                     } catch (ChaniException e) {
-                        System.out.println("    " + e.getMessage());
+                        ui.showError(e.getMessage());
                     }
+                }
             }
         }
     }
