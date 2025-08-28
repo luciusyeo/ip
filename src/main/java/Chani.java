@@ -1,16 +1,33 @@
 import java.util.ArrayList;
 
-public class Chani {
-    public static void main(String[] args) {
-        Ui ui = new Ui("Chani");
-        ArrayList<Task> tasks = new ArrayList<>();
+enum Input {
+    COMMAND(0),
+    ARGUMENTS(1);
 
+    private final int index;
+
+    Input(int index) {
+        this.index = index;
+    }
+
+    public int get() {
+        return index;
+    }
+}
+
+public class Chani {
+    static Storage storage = new Storage();
+    static Ui ui = new Ui("Chani");
+    static ArrayList<Task> tasks = new ArrayList<>();
+    static Parser parser = new Parser();
+
+    public static void main(String[] args) {
         ui.showGreeting();
 
         while (true) {
-            String input = ui.readInput();
-            String[] commandRest = input.split(" ", 2);
-            String command = commandRest[0];
+            String[] inputSplit = parser.parseCommandInput();
+            String command = inputSplit[Input.COMMAND.get()];
+            String arguments = inputSplit[Input.ARGUMENTS.get()];
 
             switch(command) {
                 case "list":
@@ -25,14 +42,14 @@ public class Chani {
                     ui.showGoodbye();
                     return;
                 case "mark": {
-                    int taskId = Integer.parseInt(commandRest[1]);
+                    int taskId = Integer.parseInt(arguments);
                     Task taskToMark = tasks.get(taskId - 1);
                     taskToMark.markAsDone();
                     ui.showMarkedTask(taskToMark);
                     break;
                 }
                 case "unmark": {
-                    int taskId = Integer.parseInt(commandRest[1]);
+                    int taskId = Integer.parseInt(arguments);
                     Task taskToUnMark = tasks.get(taskId - 1);
                     taskToUnMark.markAsUnDone();
                     ui.showUnmarkedTask(taskToUnMark);
@@ -40,12 +57,11 @@ public class Chani {
                 }
                 case "todo": {
                     try {
-                        if (commandRest.length < 2 || commandRest[1].trim().isEmpty()) {
+                        if (inputSplit.length < 2 || arguments.trim().isEmpty()) {
                             throw new ChaniException("Invalid Command: The description of a todo cannot be empty.\n" +
                                     "Follow this convention: todo <desc>");
                         }
-                        String description = commandRest[1];
-                        Task toDo = new ToDos(description);
+                        Task toDo = new ToDos(arguments);
                         tasks.add(toDo);
                         ui.showAddedTask(toDo, tasks.size());
                     } catch (ChaniException e) {
@@ -55,13 +71,12 @@ public class Chani {
                 }
                 case "deadline": {
                     try {
-                        if (commandRest.length < 2 || commandRest[1].trim().isEmpty()) {
+                        if (inputSplit.length < 2 || arguments.trim().isEmpty()) {
                             throw new ChaniException("Invalid Command: The description and by date are missing.\n" +
                                     "Use: deadline <desc> /by <date>");
                         }
 
-                        String rest = commandRest[1];
-                        String[] descBy = rest.split(" /by ", 2);
+                        String[] descBy = arguments.split(" /by ", 2);
                         if (descBy.length < 2 || descBy[1].trim().isEmpty()) {
                             throw new ChaniException("Invalid Command: The by date is missing.\n" +
                                     "Use: deadline <desc> /by <date>");
@@ -76,8 +91,7 @@ public class Chani {
                     break;
                 }
                 case "event": {
-                    String rest = commandRest[1];
-                    String[] descriptionRest = rest.split(" /from ", 2);
+                    String[] descriptionRest = arguments.split(" /from ", 2);
                     String[] fromTo = descriptionRest[1].split(" /to ", 2);
 
                     Task event = new Event(descriptionRest[0], fromTo[0], fromTo[1]);
@@ -86,7 +100,7 @@ public class Chani {
                     break;
                 }
                 case "delete": {
-                    int taskId = Integer.parseInt(commandRest[1]);
+                    int taskId = Integer.parseInt(arguments);
                     Task toDelete = tasks.get(taskId - 1);  // ⚠️ careful: was missing -1
                     tasks.remove(toDelete);
                     ui.showDeletedTask(toDelete, tasks.size());
