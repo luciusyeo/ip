@@ -1,9 +1,9 @@
-public class Event extends Task {
+public class EventTask extends Task {
     protected String start;
     protected String end;
 
 
-    public Event(String description, String start, String end) {
+    public EventTask(String description, String start, String end) {
         super(description);
         this.start = start;
         this.end = end;

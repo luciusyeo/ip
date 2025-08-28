@@ -1,11 +1,10 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
-public class Deadline extends Task{
+public class DeadlineTask extends Task{
     protected LocalDate by;
 
-    public Deadline(String description, String by) {
+    public DeadlineTask(String description, String by) {
         super(description);
         this.by = LocalDate.parse(by);;
     }
