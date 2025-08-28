@@ -1,4 +1,3 @@
-package PACKAGE_NAME;
-
-public class TaskFactory {
+public interface TaskFactory {
+    Task create(String... args);
 }

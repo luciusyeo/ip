@@ -3,17 +3,19 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Storage {
-    private final Path fPath = Paths.get("data/127-iq.txt");
+    private final Path fPath;
 
-    public Storage() {
-        createOrLoadFile();
-        read();
+    public Storage(String fPath) {
+        this.fPath = Paths.get(fPath);
+        createFileIfMissing();
     }
 
-    private void createOrLoadFile() {
+    private void createFileIfMissing() {
         try {
             Files.createDirectories(fPath.getParent());
             if (Files.notExists(fPath)) {
@@ -28,15 +30,31 @@ public class Storage {
         }
     }
 
-    public void read() {
+    //
+    public List<Task> load() {
+        ArrayList<Task> TaskList = new ArrayList<>();
         try {
             List<String> lines = Files.readAllLines(fPath);
-            for (String line : lines) {
-                System.out.println(line);
-            }
+
+            lines.forEach((line) -> {
+                String[] tokens = this.parse(line);
+                String identifier = tokens[0];
+                String[] args = Arrays.copyOfRange(tokens, 2, tokens.length);
+
+                Task task = TaskRegistry.createTask(identifier, args);
+
+                boolean marked = Integer.parseInt(tokens[1]) == 1;
+                if (marked) {
+                    task.markAsDone();
+                }
+
+                TaskList.add(task);
+            });
         } catch (IOException e) {
             System.out.println("ERROR: Failed to read Memory");
+            return new ArrayList<>();
         }
+        return TaskList;
     }
 
     public void add(String text) {
@@ -68,7 +86,7 @@ public class Storage {
     }
 
     private String[] parse(String line) {
-        return line.split(" \\| ", 4);
+        return line.split(" \\| ");
     }
 
 
