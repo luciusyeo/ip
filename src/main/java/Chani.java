@@ -1,3 +1,4 @@
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 enum Input {
@@ -73,18 +74,22 @@ public class Chani {
                     try {
                         if (inputSplit.length < 2 || arguments.trim().isEmpty()) {
                             throw new ChaniException("Invalid Command: The description and by date are missing.\n" +
-                                    "Use: deadline <desc> /by <date>");
+                                    "Use: deadline <desc> /by <yyyy-mm-dd>");
                         }
 
                         String[] descBy = arguments.split(" /by ", 2);
                         if (descBy.length < 2 || descBy[1].trim().isEmpty()) {
                             throw new ChaniException("Invalid Command: The by date is missing.\n" +
-                                    "Use: deadline <desc> /by <date>");
+                                    "Use: deadline <desc> /by <yyyy-mm-dd>");
                         }
 
-                        Task deadline = new Deadline(descBy[0], descBy[1]);
-                        tasks.add(deadline);
-                        ui.showAddedTask(deadline, tasks.size());
+                        try {
+                            Task deadline = new Deadline(descBy[0], descBy[1]);
+                            tasks.add(deadline);
+                            ui.showAddedTask(deadline, tasks.size());
+                        } catch (DateTimeParseException e) {
+                            throw new ChaniException("Invalid Date: use <yyyy-mm-dd>");
+                        }
                     } catch (ChaniException e) {
                         ui.showError(e.getMessage());
                     }
