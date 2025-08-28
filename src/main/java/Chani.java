@@ -19,13 +19,13 @@ public class Chani {
     static Storage storage = new Storage();
     static Ui ui = new Ui("Chani");
     static ArrayList<Task> tasks = new ArrayList<>();
+    static Parser parser = new Parser();
 
     public static void main(String[] args) {
         ui.showGreeting();
 
         while (true) {
-            String input = ui.readInput();
-            String[] inputSplit = input.split(" ", 2);
+            String[] inputSplit = parser.parseCommandInput();
             String command = inputSplit[Input.COMMAND.get()];
             String arguments = inputSplit[Input.ARGUMENTS.get()];
 

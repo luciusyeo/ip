@@ -1,8 +1,5 @@
-import java.util.Scanner;
-
 public class Ui {
     private final String bot;
-    private final Scanner scanner = new Scanner(System.in);
 
     public Ui(String bot) {
         this.bot = bot;
@@ -10,10 +7,6 @@ public class Ui {
 
     public void showGreeting() {
         System.out.printf("Hello! I'm %s%nWhat can I do for you?%n", bot);
-    }
-
-    public String readInput() {
-        return scanner.nextLine();
     }
 
     public void showList(String taskList) {
