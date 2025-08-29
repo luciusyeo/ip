@@ -1,9 +1,9 @@
 package chani;
 
 abstract public class Command {
-    boolean exit;
-    String command;
-    String[] args;
+    protected boolean exit;
+    protected String command;
+    protected String[] args;
 
     public Command(String command, String... args) {
         this.exit = false;

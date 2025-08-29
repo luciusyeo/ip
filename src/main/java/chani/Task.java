@@ -24,4 +24,11 @@ abstract public class Task {
         return (isDone ? "[X]" : "[ ]") + " " + description; // mark done task with X
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
 }
