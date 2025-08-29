@@ -1,3 +1,5 @@
+package chani;
+
 public class EventTask extends Task {
     protected String start;
     protected String end;

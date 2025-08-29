@@ -1,3 +1,5 @@
+package chani;
+
 import java.util.Scanner;
 
 public class Ui {

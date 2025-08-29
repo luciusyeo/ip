@@ -1,3 +1,5 @@
+package chani;
+
 public class Chani {
     private Storage storage;
     private TaskList tasks;

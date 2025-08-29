@@ -1,4 +1,5 @@
-import java.lang.reflect.Array;
+package chani;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ public class TaskList {
     private final ArrayList<Task> tasks;
 
     //take in a list of tasks, and for each, u want to convert them into the correct tasks
-    //and store in TaskList
+    //and store in chani.TaskList
     public TaskList(List<Task> tasks) {
         this.tasks = new ArrayList<>(tasks);
     }

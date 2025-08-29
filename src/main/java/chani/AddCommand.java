@@ -1,3 +1,5 @@
+package chani;
+
 public class AddCommand extends Command{
 
     public AddCommand(String command, String... args) {
