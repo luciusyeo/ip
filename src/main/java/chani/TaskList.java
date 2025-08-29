@@ -7,8 +7,6 @@ import java.util.List;
 public class TaskList {
     private final ArrayList<Task> tasks;
 
-    //take in a list of tasks, and for each, u want to convert them into the correct tasks
-    //and store in chani.TaskList
     public TaskList(List<Task> tasks) {
         this.tasks = new ArrayList<>(tasks);
     }
@@ -29,6 +27,13 @@ public class TaskList {
         tasks.add(task);
     }
 
-
-
+    public List<Task> find(String keyword) {
+        List<Task> matches = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().contains(keyword)) {
+                matches.add(task);
+            }
+        }
+        return matches;
+    }
 }

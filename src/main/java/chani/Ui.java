@@ -28,6 +28,12 @@ public class Ui {
         System.out.println(taskList);
     }
 
+    public void showQueriedTasks(String taskList) {
+        System.out.println("Here are the matching tasks in your list:");
+        System.out.println(taskList);
+    }
+
+
     public void showError(String message) {
         System.out.println("    " + message);
     }

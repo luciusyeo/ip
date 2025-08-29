@@ -30,6 +30,11 @@ public class Parser {
                 validateSplit(commandArgs, "delete <task_id>");
                 String task_id = commandArgs[1];
                 return new DeleteCommand(command, task_id);
+            case "find": {
+                validateSplit(commandArgs, "find <query>");
+                String query = commandArgs[1];
+                return new FindCommand(command, query);
+            }
             case "todo": {
                 //t.o.d.o <description>
                 validateSplit(commandArgs, "todo <desc>");
