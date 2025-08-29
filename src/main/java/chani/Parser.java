@@ -1,3 +1,5 @@
+package chani;
+
 public class Parser {
 
     public static Command parse(String input) throws ChaniException {
@@ -68,7 +70,7 @@ public class Parser {
 
     private static void validateSplit(String[] input, String message) throws ChaniException{
         if (input.length < 2) {
-            throw new ChaniException("Invalid Command: Use " + message + " instead");
+            throw new ChaniException("Invalid chani.Command: Use " + message + " instead");
         }
     }
 }

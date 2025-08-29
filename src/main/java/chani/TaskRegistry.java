@@ -1,6 +1,8 @@
+package chani;
+
 import java.util.HashMap;
 
-// registry.put("D", new DeadlineTaskFactory());
+// registry.put("D", new chani.DeadlineTaskFactory());
 
 public class TaskRegistry {
     private static final HashMap<String, TaskFactory> registry = new HashMap<>();
@@ -10,7 +12,7 @@ public class TaskRegistry {
         TodoTaskFactory toDoFactory = new TodoTaskFactory();
         EventTaskFactory eventFactory = new EventTaskFactory();
 
-        // Storage
+        // chani.Storage
         registry.put("d", deadlineFactory);
         registry.put("t", toDoFactory);
         registry.put("e", eventFactory);

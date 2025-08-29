@@ -1,3 +1,5 @@
+package chani;
+
 public class ExitCommand extends Command{
 
     public ExitCommand(String command, String... args) {

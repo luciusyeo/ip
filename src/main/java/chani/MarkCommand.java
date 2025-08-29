@@ -1,3 +1,5 @@
+package chani;
+
 public class MarkCommand extends Command{
 
     public MarkCommand(String command, String... args) {

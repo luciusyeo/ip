@@ -1,3 +1,5 @@
+package chani;
+
 abstract public class Command {
     boolean exit;
     String command;

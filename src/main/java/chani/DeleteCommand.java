@@ -1,3 +1,5 @@
+package chani;
+
 public class DeleteCommand extends Command{
 
     public DeleteCommand(String command, String... args) {
