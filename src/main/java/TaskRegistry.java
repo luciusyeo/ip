@@ -5,20 +5,24 @@ import java.util.HashMap;
 public class TaskRegistry {
     private static final HashMap<String, TaskFactory> registry = new HashMap<>();
 
-    public TaskRegistry() {
+    static {
         DeadlineTaskFactory deadlineFactory = new DeadlineTaskFactory();
         TodoTaskFactory toDoFactory = new TodoTaskFactory();
         EventTaskFactory eventFactory = new EventTaskFactory();
 
-        //Storage
+        // Storage
         registry.put("d", deadlineFactory);
         registry.put("t", toDoFactory);
-        registry.put("e", new EventTaskFactory());
+        registry.put("e", eventFactory);
 
-        //CLI
+        // CLI
         registry.put("deadline", deadlineFactory);
         registry.put("todo", toDoFactory);
         registry.put("event", eventFactory);
+    }
+
+    public TaskRegistry() {
+
     }
 
     public static Task createTask(String identifier, String... args) {

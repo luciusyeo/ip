@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Task {
+abstract public class Task {
     protected String description;
     protected boolean isDone;
 
@@ -9,12 +9,14 @@ public class Task {
         this.isDone = false;
     }
 
-    public void markAsDone() {
+    public Task markAsDone() {
         this.isDone = true;
+        return this;
     }
 
-    public void markAsUnDone() {
+    public Task markAsUnDone() {
         this.isDone = false;
+        return this;
     }
 
     @Override

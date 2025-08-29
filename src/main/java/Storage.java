@@ -58,26 +58,6 @@ public class Storage {
         return TaskList;
     }
 
-    public void add(String text) {
-        try {
-            FileWriter fw = new FileWriter(fPath.toFile(), true);
-            fw.write(text);
-            fw.close();
-        } catch (IOException e) {
-            System.out.println("ERROR: Failed to add to Storage");
-        }
-    }
-
-    public void delete(String text) {
-        try {
-            FileWriter fw = new FileWriter(fPath.toFile());
-            fw.write(text);
-            fw.close();
-        } catch (IOException e) {
-            System.out.println("ERROR: Failed to delete from Storage");
-        }
-    }
-
     private String format(String[] data) {
         String base = data[0] + " | " + data[1] + " | " + data[2];
         if (data.length == 4) {
@@ -89,7 +69,5 @@ public class Storage {
     private String[] parse(String line) {
         return line.split(" \\| ");
     }
-
-
 
 }

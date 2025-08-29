@@ -1,12 +1,15 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+//TODO: Catch this.by DateTime errors
 
 public class DeadlineTask extends Task{
     protected LocalDate by;
 
     public DeadlineTask(String description, String by) {
         super(description);
-        this.by = LocalDate.parse(by);;
+            this.by = LocalDate.parse(by);
     }
 
     @Override

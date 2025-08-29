@@ -1,12 +1,24 @@
+import java.util.Scanner;
+
 public class Ui {
     private final String bot;
+    private final Scanner scanner;
 
     public Ui(String bot) {
         this.bot = bot;
+        scanner = new Scanner(System.in);
     }
 
-    public void showGreeting() {
+    public void showWelcome() {
         System.out.printf("Hello! I'm %s%nWhat can I do for you?%n", bot);
+    }
+
+    public String readCommand() {
+        return scanner.nextLine();
+    }
+
+    public void showLine() {
+        System.out.println("________________________");
     }
 
     public void showList(String taskList) {
