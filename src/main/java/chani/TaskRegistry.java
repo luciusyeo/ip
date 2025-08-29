@@ -28,10 +28,14 @@ public class TaskRegistry {
     }
 
     public static Task createTask(String identifier, String... args) {
-        TaskFactory factory = registry.get(identifier.toLowerCase());
+        TaskFactory factory = getFactory(identifier);
         if (factory == null) {
             throw new IllegalArgumentException("Unknown task type: " + identifier);
         }
         return factory.create(args);
+    }
+
+    private static TaskFactory getFactory(String identifier) {
+        return registry.get(identifier.toLowerCase());
     }
 }
