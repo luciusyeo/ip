@@ -17,14 +17,19 @@ enum Input {
 }
 
 public class Chani {
-    static Storage storage = new Storage();
-    static Ui ui = new Ui("Chani");
-    static ArrayList<Task> tasks = new ArrayList<>();
+    private Storage storage;
+    private TaskList tasks;
+    private Ui ui;
     static Parser parser = new Parser();
 
-    public static void main(String[] args) {
-        ui.showGreeting();
+    public Chani(String fPath) {
+        this.ui = new Ui("Chani");
+        this.storage = new Storage(fPath);
+        tasks = new TaskList(storage.load());
+    }
 
+    public void run() {
+        ui.showGreeting();
         while (true) {
             String[] inputSplit = parser.parseCommandInput();
             String command = inputSplit[Input.COMMAND.get()];
@@ -62,7 +67,7 @@ public class Chani {
                             throw new ChaniException("Invalid Command: The description of a todo cannot be empty.\n" +
                                     "Follow this convention: todo <desc>");
                         }
-                        Task toDo = new ToDos(arguments);
+                        Task toDo = new ToDoTask(arguments);
                         tasks.add(toDo);
                         ui.showAddedTask(toDo, tasks.size());
                     } catch (ChaniException e) {
@@ -84,7 +89,7 @@ public class Chani {
                         }
 
                         try {
-                            Task deadline = new Deadline(descBy[0], descBy[1]);
+                            Task deadline = new DeadlineTask(descBy[0], descBy[1]);
                             tasks.add(deadline);
                             ui.showAddedTask(deadline, tasks.size());
                         } catch (DateTimeParseException e) {
@@ -99,7 +104,7 @@ public class Chani {
                     String[] descriptionRest = arguments.split(" /from ", 2);
                     String[] fromTo = descriptionRest[1].split(" /to ", 2);
 
-                    Task event = new Event(descriptionRest[0], fromTo[0], fromTo[1]);
+                    Task event = new EventTask(descriptionRest[0], fromTo[0], fromTo[1]);
                     tasks.add(event);
                     ui.showAddedTask(event, tasks.size());
                     break;
@@ -120,5 +125,10 @@ public class Chani {
                 }
             }
         }
+}
+
+
+    public static void main(String[] args) {
+        new Chani("data/127-iq.txt").run();
     }
 }

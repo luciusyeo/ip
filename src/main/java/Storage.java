@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Storage {
     private final Path fPath;
@@ -43,7 +44,7 @@ public class Storage {
 
                 Task task = TaskRegistry.createTask(identifier, args);
 
-                boolean marked = Integer.parseInt(tokens[1]) == 1;
+                boolean marked = Objects.equals(tokens[1], "1");
                 if (marked) {
                     task.markAsDone();
                 }

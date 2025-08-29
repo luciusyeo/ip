@@ -6,15 +6,19 @@ public class TaskRegistry {
     private static final HashMap<String, TaskFactory> registry = new HashMap<>();
 
     public TaskRegistry() {
+        DeadlineTaskFactory deadlineFactory = new DeadlineTaskFactory();
+        TodoTaskFactory toDoFactory = new TodoTaskFactory();
+        EventTaskFactory eventFactory = new EventTaskFactory();
+
         //Storage
-        registry.put("d", new DeadlineTaskFactory());
-        registry.put("t", new TodoTaskFactory());
+        registry.put("d", deadlineFactory);
+        registry.put("t", toDoFactory);
         registry.put("e", new EventTaskFactory());
 
         //CLI
-        registry.put("deadline", new DeadlineTaskFactory());
-        registry.put("todo", new TodoTaskFactory());
-        registry.put("event", new EventTaskFactory());
+        registry.put("deadline", deadlineFactory);
+        registry.put("todo", toDoFactory);
+        registry.put("event", eventFactory);
     }
 
     public static Task createTask(String identifier, String... args) {
