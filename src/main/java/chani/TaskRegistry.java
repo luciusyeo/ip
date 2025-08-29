@@ -2,8 +2,6 @@ package chani;
 
 import java.util.HashMap;
 
-// registry.put("D", new chani.DeadlineTaskFactory());
-
 public class TaskRegistry {
     private static final HashMap<String, TaskFactory> registry = new HashMap<>();
 
