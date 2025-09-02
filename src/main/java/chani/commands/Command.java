@@ -1,4 +1,8 @@
-package chani;
+package chani.commands;
+
+import chani.Storage;
+import chani.TaskList;
+import chani.Ui;
 
 /**
  * Represents an abstract command in the Chani application.

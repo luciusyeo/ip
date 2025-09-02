@@ -1,4 +1,4 @@
-package chani;
+package chani.tasks;
 
 public class TodoTaskFactory implements TaskFactory{
     @Override

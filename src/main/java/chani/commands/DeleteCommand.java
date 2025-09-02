@@ -1,4 +1,9 @@
-package chani;
+package chani.commands;
+
+import chani.Storage;
+import chani.tasks.Task;
+import chani.TaskList;
+import chani.Ui;
 
 /**
  * Represents a command that deletes a {@link Task} from the {@link TaskList}.

@@ -1,4 +1,4 @@
-package chani;
+package chani.tasks;
 
 public class EventTask extends Task {
     protected String start;
@@ -9,6 +9,11 @@ public class EventTask extends Task {
         super(description);
         this.start = start;
         this.end = end;
+    }
+
+    @Override
+    public String toStorageString() {
+        return
     }
 
     @Override

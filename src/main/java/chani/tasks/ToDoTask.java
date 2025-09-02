@@ -1,4 +1,4 @@
-package chani;
+package chani.tasks;
 
 public class ToDoTask extends Task{
     public ToDoTask(String description) {

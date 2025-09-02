@@ -1,4 +1,9 @@
-package chani;
+package chani.commands;
+
+import chani.Storage;
+import chani.tasks.Task;
+import chani.TaskList;
+import chani.Ui;
 
 import java.util.List;
 
@@ -10,7 +15,7 @@ import java.util.List;
  * contains the query and displays them through the {@link Ui}.
  * </p>
  */
-public class FindCommand extends Command{
+public class FindCommand extends Command {
 
 
     /**

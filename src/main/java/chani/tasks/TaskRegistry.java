@@ -1,4 +1,4 @@
-package chani;
+package chani.tasks;
 
 import java.util.HashMap;
 

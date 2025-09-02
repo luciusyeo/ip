@@ -1,4 +1,4 @@
-package chani;
+package chani.tasks;
 
 abstract public class Task {
     protected String description;
@@ -19,11 +19,6 @@ abstract public class Task {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return (isDone ? "[X]" : "[ ]") + " " + description; // mark done task with X
-    }
-
     public String getDescription() {
         return description;
     }
@@ -31,4 +26,12 @@ abstract public class Task {
     public boolean isDone() {
         return isDone;
     }
+
+    abstract String toStorageString();
+
+    @Override
+    public String toString() {
+        return (isDone ? "[X]" : "[ ]") + " " + description;
+    }
+
 }

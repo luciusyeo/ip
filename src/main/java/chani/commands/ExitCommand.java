@@ -1,4 +1,8 @@
-package chani;
+package chani.commands;
+
+import chani.Storage;
+import chani.TaskList;
+import chani.Ui;
 
 /**
  * Represents a command that exits the Chani application.
@@ -30,6 +34,7 @@ public class ExitCommand extends Command {
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) {
         ui.showGoodbye();
+        storage.
         this.exit = true;
     }
 }

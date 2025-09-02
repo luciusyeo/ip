@@ -1,5 +1,7 @@
 package chani;
 
+import chani.tasks.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 

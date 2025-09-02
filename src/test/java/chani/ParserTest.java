@@ -1,4 +1,6 @@
 package chani;
+import chani.commands.Command;
+import chani.commands.ListCommand;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;

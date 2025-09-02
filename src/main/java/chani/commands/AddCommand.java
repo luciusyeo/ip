@@ -1,4 +1,8 @@
-package chani;
+package chani.commands;
+
+import chani.*;
+import chani.tasks.Task;
+import chani.tasks.TaskRegistry;
 
 /**
  * Represents a command that adds a new {@link Task} to the {@link TaskList}.
