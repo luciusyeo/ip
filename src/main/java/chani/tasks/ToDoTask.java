@@ -1,8 +1,15 @@
 package chani.tasks;
 
+import java.util.List;
+
 public class ToDoTask extends Task{
     public ToDoTask(String description) {
-        super(description);
+        super(description, "T");
+    }
+
+    @Override
+    public List<String> toStringList() {
+        return super.toStringList();
     }
 
     @Override

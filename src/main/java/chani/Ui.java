@@ -59,4 +59,8 @@ public class Ui {
         System.out.println("    " + task);
         System.out.println("Now you have " + size + " tasks in the list.");
     }
+
+    public void showQueriedTasks(String queried) {
+        System.out.println(queried);
+    }
 }

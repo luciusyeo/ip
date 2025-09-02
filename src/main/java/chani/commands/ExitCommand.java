@@ -34,7 +34,7 @@ public class ExitCommand extends Command {
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) {
         ui.showGoodbye();
-        storage.
+        storage.save(taskList.getAllTasks());
         this.exit = true;
     }
 }

@@ -1,5 +1,8 @@
 package chani;
 
+import chani.tasks.Task;
+import chani.tasks.TaskRegistry;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,18 +24,13 @@ public class Storage {
         try {
             Files.createDirectories(fPath.getParent());
             if (Files.notExists(fPath)) {
-                System.out.println("127-iq is missing! creating...");
                 Files.createFile(fPath);
-                System.out.println("Chanibot created with 127 iq!");
             }
-            System.out.println("Loading 127 iq from storage...");
-
         } catch (IOException e) {
             System.out.println("ERROR: Failed to create or load 127-iq");
         }
     }
 
-    //
     public List<Task> load() {
         ArrayList<Task> TaskList = new ArrayList<>();
         try {
@@ -59,12 +57,23 @@ public class Storage {
         return TaskList;
     }
 
-    private String format(String[] data) {
-        String base = data[0] + " | " + data[1] + " | " + data[2];
-        if (data.length == 4) {
-            base += " | " + data[3];
+    public void save(List<Task> tasks) {
+        List<String> lines = new ArrayList<>();
+        for (Task task : tasks) {
+            String[] arr = task.toStringList().toArray(new String[0]);
+            lines.add(format(arr));
         }
-        return base;
+
+        try {
+            Files.write(fPath, lines);
+        } catch (IOException e) {
+            System.out.println("ERROR: Failed to write to Memory");
+        }
+
+    }
+
+    private String format(String[] data) {
+        return String.join(" | ", data);
     }
 
     private String[] parse(String line) {

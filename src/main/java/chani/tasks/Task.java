@@ -1,10 +1,15 @@
 package chani.tasks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 abstract public class Task {
+    protected String identifier;
     protected String description;
     protected boolean isDone;
 
-    public Task(String description) {
+    public Task(String description, String identifier) {
+        this.identifier = identifier;
         this.description = description;
         this.isDone = false;
     }
@@ -27,7 +32,10 @@ abstract public class Task {
         return isDone;
     }
 
-    abstract String toStorageString();
+    public List<String> toStringList() {
+        String done = isDone() ? "1" : "0";
+        return new ArrayList<>(List.of(identifier, done, description));
+    }
 
     @Override
     public String toString() {

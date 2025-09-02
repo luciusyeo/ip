@@ -38,4 +38,8 @@ public class TaskList {
         }
         return matches;
     }
+
+    public List<Task> getAllTasks() {
+        return tasks;
+    }
 }
