@@ -1,6 +1,8 @@
 package chani.gui;
 
 import chani.Chani;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -8,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * Controller for the main GUI.
@@ -34,7 +37,13 @@ public class MainWindow extends AnchorPane {
 
     /** Injects the Chani instance */
     public void setChani(Chani c) {
-        chani = c;
+        this.chani = c;
+
+        String greeting = chani.getGreeting();
+        dialogContainer.getChildren().add(
+                DialogBox.getChaniDialog(greeting, chaniImage)
+        );
+
     }
 
     /**
@@ -50,5 +59,22 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getChaniDialog(response, chaniImage)
         );
         userInput.clear();
+
+        if (input.trim().equalsIgnoreCase("bye")) {
+            handleExit();
+        }
     }
+
+    /**
+     * Disables user input and send button, pausing for 1.5 seconds before exiting
+     */
+    private void handleExit() {
+        userInput.setDisable(true);
+        sendButton.setDisable(true);
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
+        delay.setOnFinished(e -> Platform.exit());
+        delay.play();
+    }
+
 }
