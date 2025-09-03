@@ -5,36 +5,26 @@ import chani.TaskList;
 import chani.Ui;
 
 /**
- * Represents a command that exits the Chani application.
- * <p>
- * The {@code ExitCommand} displays a goodbye message through the {@link Ui}
- * and signals the application to terminate by setting the {@code exit} flag.
- * </p>
+ * Represents Command to exit the Chani application.
  */
 public class ExitCommand extends Command {
 
     /**
-     * Constructs an {@code ExitCommand}.
-     *
-     * @param command the command keyword (e.g., "bye")
-     * @param args optional arguments (not used for this command)
+     * Creates an ExitCommand with a command keyword.
+     * @param command The command keyword (e.g., "bye").
+     * @param args Optional arguments (not used here).
      */
     public ExitCommand(String command, String... args) {
         super(command, args);
     }
 
     /**
-     * Executes the exit command by displaying a goodbye message
-     * and setting the exit flag to {@code true}.
-     *
-     * @param taskList the task list (not used in this command)
-     * @param ui the user interface for displaying the goodbye message
-     * @param storage the storage handler (not used in this command)
+     * Displays the goodbye message and saves tasks before exiting.
+     * @return Goodbye message string.
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
-        ui.showGoodbye();
+    public String execute(TaskList taskList, Ui ui, Storage storage) {
         storage.save(taskList.getAllTasks());
-        this.exit = true;
+        return ui.showGoodbye();
     }
 }

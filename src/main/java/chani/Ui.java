@@ -2,65 +2,93 @@ package chani;
 
 import chani.tasks.Task;
 
-import java.util.Scanner;
-
+/**
+ * Represents the ui messages of the chatbot
+ */
 public class Ui {
     private final String bot;
-    private final Scanner scanner;
 
+    /**
+     * Constructs an Ui with the specified bot name.
+     * @param bot The name of the bot.
+     */
     public Ui(String bot) {
         this.bot = bot;
-        scanner = new Scanner(System.in);
     }
 
-    public void showWelcome() {
-        System.out.printf("Hello! I'm %s%nWhat can I do for you?%n", bot);
+    /**
+     * Returns the welcome message of the bot.
+     * @return Welcome message string.
+     */
+    public String showWelcome() {
+        return "Hello! I'm " + bot + ", What can I do for you?";
     }
 
-    public String readCommand() {
-        return scanner.nextLine();
+    /**
+     * Returns a message showing the list of tasks.
+     * @param taskList The string representation of tasks.
+     * @return Task list message.
+     */
+    public String showList(String taskList) {
+        return "Here are the tasks in your list: \n " + taskList;
     }
 
-    public void showLine() {
-        System.out.println("________________________");
+    /**
+     * Returns the goodbye message of the bot.
+     * @return Goodbye message string.
+     */
+    public String showGoodbye() {
+        return "see you again soon :( \n saving and closing bot...";
     }
 
-    public void showList(String taskList) {
-        System.out.println("Here are the tasks in your list:");
-        System.out.println(taskList);
+    /**
+     * Returns a message for a marked task.
+     * @param task The task that was marked done.
+     * @return Marked task message.
+     */
+    public String showMarkedTask(Task task) {
+        return "Nice! I've marked this task as done: \n" + task;
     }
 
-    public void showError(String message) {
-        System.out.println("    " + message);
+    /**
+     * Returns a message for an unmarked task.
+     * @param task The task that was marked not done.
+     * @return Unmarked task message.
+     */
+    public String showUnmarkedTask(Task task) {
+        return "Nice! I've marked this task as not done yet: \n" + task;
     }
 
-    public void showGoodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
+    /**
+     * Returns a message for an added task.
+     * @param task The task that was added.
+     * @param size The total number of tasks in the list.
+     * @return Added task message.
+     */
+    public String showAddedTask(Task task, int size) {
+        return "Got it. I've added this task: \n"
+                + task + "\n"
+                + "Now you have " + size + " tasks in the list.";
     }
 
-    public void showMarkedTask(Task task) {
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("    " + task);
+    /**
+     * Returns a message for a deleted task.
+     * @param task The task that was removed.
+     * @param size The total number of tasks left in the list.
+     * @return Deleted task message.
+     */
+    public String showDeletedTask(Task task, int size) {
+        return "Noted. I've removed this task:"
+                + task + "\n"
+                + "Now you have " + size + " tasks in the list.";
     }
 
-    public void showUnmarkedTask(Task task) {
-        System.out.println("Nice! I've marked this task as not done yet:");
-        System.out.println("    " + task);
-    }
-
-    public void showAddedTask(Task task, int size) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println("    " + task);
-        System.out.println("Now you have " + size + " tasks in the list.");
-    }
-
-    public void showDeletedTask(Task task, int size) {
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("    " + task);
-        System.out.println("Now you have " + size + " tasks in the list.");
-    }
-
-    public void showQueriedTasks(String queried) {
-        System.out.println(queried);
+    /**
+     * Returns a message showing queried tasks.
+     * @param queried The string of queried tasks.
+     * @return Queried tasks message.
+     */
+    public String showQueriedTasks(String queried) {
+        return "I tried my best... \n" + queried;
     }
 }

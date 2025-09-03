@@ -6,38 +6,29 @@ import chani.TaskList;
 import chani.Ui;
 
 /**
- * Represents a command that deletes a {@link Task} from the {@link TaskList}.
- * <p>
- * The {@code DeleteCommand} removes a task specified by its task ID
- * from the task list and notifies the user via the {@link Ui}.
- * </p>
+ * Represents command to delete a {@link Task} from the {@link TaskList}.
  */
 public class DeleteCommand extends Command {
 
     /**
-     * Constructs a {@code DeleteCommand}.
-     *
-     * @param command the command keyword (e.g., "delete")
-     * @param args arguments for the command, where the first argument is expected
-     *             to be the task ID (index in the task list)
+     * Creates a DeleteCommand with a command keyword and arguments.
+     * @param command The command keyword (e.g., "delete").
+     * @param args The task ID to delete (first argument).
      */
     public DeleteCommand(String command, String... args) {
         super(command, args);
     }
 
     /**
-     * Executes the delete command by removing the specified task from the task list
-     * and displaying confirmation to the user.
-     *
-     * @param taskList the task list from which the task will be removed
-     * @param ui the user interface for displaying feedback
-     * @param storage the storage handler (not used directly in this command)
+     * Removes the specified task from the task list and returns a message.
+     * @param storage The storage handler (not used here).
+     * @return Message confirming the task was deleted.
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
+    public String execute(TaskList taskList, Ui ui, Storage storage) {
         int taskId = Integer.parseInt(args[0]);
         Task toDelete = taskList.get(taskId);
         taskList.remove(toDelete);
-        ui.showDeletedTask(toDelete, taskList.size());
+        return ui.showDeletedTask(toDelete, taskList.size());
     }
 }

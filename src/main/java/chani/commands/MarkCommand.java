@@ -1,44 +1,35 @@
 package chani.commands;
 
 import chani.Storage;
-import chani.tasks.Task;
 import chani.TaskList;
 import chani.Ui;
+import chani.tasks.Task;
 
 /**
- * Represents a command that marks a {@link Task} in the {@link TaskList} as done.
- * <p>
- * The {@code MarkCommand} identifies the task by its ID, updates its status,
- * and notifies the user through the {@link Ui}.
- * </p>
+ * Command to mark a {@link Task} in the {@link TaskList} as done.
  */
 public class MarkCommand extends Command {
 
     /**
-     * Constructs a {@code MarkCommand}.
-     *
-     * @param command the command keyword (e.g., "mark")
-     * @param args arguments for the command, where the first argument is expected
-     *             to be the task ID (index in the task list)
+     * Creates a MarkCommand with a command keyword and task ID.
+     * @param command The command keyword (e.g., "mark").
+     * @param args The task ID to mark (first argument).
      */
     public MarkCommand(String command, String... args) {
         super(command, args);
     }
 
     /**
-     * Executes the mark command by marking the specified task as done
-     * and displaying confirmation to the user.
-     *
-     * @param taskList the task list containing the task to be marked
-     * @param ui the user interface for showing feedback
-     * @param storage the storage handler (not used directly in this command)
-     * @throws NumberFormatException if the provided task ID is not a valid integer
-     * @throws IndexOutOfBoundsException if the provided task ID does not exist in the task list
+     * Marks the specified task as done and returns a confirmation message.
+     * @param storage The storage handler (not used here).
+     * @return Message confirming the task was marked done.
+     * @throws NumberFormatException if the task ID is not a valid integer.
+     * @throws IndexOutOfBoundsException if the task ID does not exist.
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
+    public String execute(TaskList taskList, Ui ui, Storage storage) {
         int taskId = Integer.parseInt(args[0]);
         Task markedTask = taskList.get(taskId).markAsDone();
-        ui.showMarkedTask(markedTask);
+        return ui.showMarkedTask(markedTask);
     }
 }

@@ -2,38 +2,44 @@ package chani;
 
 import chani.commands.Command;
 
+/**
+ * Represents the main chatbot class
+ */
 public class Chani {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Class Constructor.
+     * @param fPath txt file path for storage.
+     */
     public Chani(String fPath) {
-        this.ui = new Ui("Chani");
         this.storage = new Storage(fPath);
+        this.ui = new Ui("Chani");
         tasks = new TaskList(storage.load());
     }
 
-    public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
-
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                ui.showLine();
-                Command c = Parser.parse(fullCommand);
-                c.execute(tasks, ui, storage);
-                isExit = c.isExit();
-
-            } catch (ChaniException e) {
-                ui.showError(e.getMessage());
-            } finally {
-                ui.showLine();
-            }
+    /**
+     * Returns gui message for Chani bot.
+     * @param input text to return.
+     * @return Chani bot's message.
+     */
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            String response = c.execute(tasks, ui, storage);
+            return "Chani: " + response;
+        } catch (ChaniException e) {
+            return e.getMessage();
         }
     }
 
-    public static void main(String[] args) {
-        new Chani("data/127-iq.txt").run();
+    /**
+     * Returns gui greeting for Chani bot.
+     * @return greeting message.
+     */
+    public String getGreeting() {
+        return ui.showWelcome();
     }
 }
