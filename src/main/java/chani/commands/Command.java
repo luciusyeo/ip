@@ -14,42 +14,26 @@ import chani.Ui;
  */
 public abstract class Command {
 
-    /** Indicates whether this command should exit the application. */
-    protected boolean exit;
-
     /** The raw command string provided by the user. */
     protected String command;
-
     /** Any additional arguments associated with the command. */
     protected String[] args;
 
     /**
      * Constructs a new Command.
-     *
      * @param command the main command keyword
      * @param args optional arguments for the command
      */
     public Command(String command, String... args) {
-        this.exit = false;
         this.command = command;
         this.args = args;
     }
 
     /**
      * Executes this command using the provided task list, UI, and storage.
-     *
      * @param taskList the task list on which the command operates
      * @param ui the user interface for interaction
      * @param storage the storage for saving/loading tasks
      */
-    public abstract void execute(TaskList taskList, Ui ui, Storage storage);
-
-    /**
-     * Returns whether this command signals the application to exit.
-     *
-     * @return true if the application should exit, false otherwise
-     */
-    public boolean isExit() {
-        return exit;
-    }
+    public abstract String execute(TaskList taskList, Ui ui, Storage storage);
 }

@@ -1,42 +1,33 @@
 package chani.commands;
 
 import chani.Storage;
-import chani.tasks.Task;
 import chani.TaskList;
 import chani.Ui;
+import chani.tasks.Task;
 
 /**
- * Represents a command that marks a {@link Task} in the {@link TaskList} as not done.
- * <p>
- * The {@code UnMarkCommand} identifies the task by its ID, updates its status,
- * and notifies the user through the {@link Ui}.
- * </p>
+ * Command to mark a {@link Task} in the {@link TaskList} as not done.
  */
 public class UnMarkCommand extends Command {
 
     /**
-     * Constructs an {@code UnMarkCommand}.
-     *
-     * @param command the command keyword (e.g., "unmark")
-     * @param args arguments for the command, where the first argument is expected
-     *             to be the task ID (index in the task list)
+     * Creates an UnMarkCommand with a command keyword and task ID.
+     * @param command The command keyword (e.g., "unmark").
+     * @param args The task ID to unmark (first argument).
      */
     public UnMarkCommand(String command, String... args) {
         super(command, args);
     }
 
     /**
-     * Executes the unmark command by marking the specified task as not done
-     * and displaying confirmation to the user.
-     *
-     * @param taskList the task list containing the task to be unmarked
-     * @param ui the user interface for showing feedback
-     * @param storage the storage handler (not used directly in this command)
+     * Marks the specified task as not done and displays a confirmation message.
+     * @param storage The storage handler (not used here).
+     * @return Message confirming the task was unmarked.
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
+    public String execute(TaskList taskList, Ui ui, Storage storage) {
         int taskId = Integer.parseInt(args[0]);
         Task task = taskList.get(taskId).markAsUnDone();
-        ui.showUnmarkedTask(task);
+        return ui.showUnmarkedTask(task);
     }
 }

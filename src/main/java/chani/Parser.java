@@ -1,16 +1,25 @@
 package chani;
 
-import chani.commands.ListCommand;
-import chani.commands.Command;
 import chani.commands.AddCommand;
+import chani.commands.Command;
+import chani.commands.DeleteCommand;
 import chani.commands.ExitCommand;
+import chani.commands.FindCommand;
+import chani.commands.ListCommand;
 import chani.commands.MarkCommand;
 import chani.commands.UnMarkCommand;
-import chani.commands.DeleteCommand;
-import chani.commands.FindCommand;
 
+/**
+ * Parses user input strings into {@link Command} objects.
+ */
 public class Parser {
 
+    /**
+     * Parses the input string and returns the corresponding {@link Command}.
+     * @param input The user input string.
+     * @return The {@link Command} object representing the input.
+     * @throws ChaniException if the input is invalid or the command is unknown.
+     */
     public static Command parse(String input) throws ChaniException {
         String[] commandArgs = input.split(" ", 2);
         String command = commandArgs[0];
@@ -25,20 +34,20 @@ public class Parser {
         case "mark": {
             // mark <task_id>
             validateSplit(commandArgs, "mark <task_id>");
-            String task_id = commandArgs[1];
-            return new MarkCommand(command, task_id);
+            String taskId = commandArgs[1];
+            return new MarkCommand(command, taskId);
         }
         case "unmark": {
             // unmark <task_id>
             validateSplit(commandArgs, "unmark <task_id>");
-            String task_id = commandArgs[1];
-            return new UnMarkCommand(command, task_id);
+            String taskId = commandArgs[1];
+            return new UnMarkCommand(command, taskId);
         }
         case "delete":
             // delete <task_id>
             validateSplit(commandArgs, "delete <task_id>");
-            String task_id = commandArgs[1];
-            return new DeleteCommand(command, task_id);
+            String taskId = commandArgs[1];
+            return new DeleteCommand(command, taskId);
         case "find": {
             validateSplit(commandArgs, "find <query>");
             String query = commandArgs[1];
@@ -82,9 +91,15 @@ public class Parser {
 
     }
 
-    private static void validateSplit(String[] input, String message) throws ChaniException{
+    /**
+     * Checks that the input array has at least two elements.
+     * @param input The array to check.
+     * @param message The message to include in the exception if invalid.
+     * @throws ChaniException if the input array has less than 2 elements.
+     */
+    private static void validateSplit(String[] input, String message) throws ChaniException {
         if (input.length < 2) {
-            throw new ChaniException("Invalid chani.commands.Command: Use " + message + " instead");
+            throw new ChaniException("Invalid Command: Use " + message + " instead");
         }
     }
 }

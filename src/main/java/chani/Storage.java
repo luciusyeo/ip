@@ -1,8 +1,5 @@
 package chani;
 
-import chani.tasks.Task;
-import chani.tasks.TaskRegistry;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,14 +9,28 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import chani.tasks.Task;
+import chani.tasks.TaskRegistry;
+
+
+/**
+ * Handles loading and saving of {@link Task} objects to a file.
+ */
 public class Storage {
     private final Path fPath;
 
+    /**
+     * Creates a Storage instance for the specified file path.
+     * @param fPath The file path for storing tasks.
+     */
     public Storage(String fPath) {
         this.fPath = Paths.get(fPath);
         createFileIfMissing();
     }
 
+    /**
+     * Creates the file and parent directories if they do not exist.
+     */
     private void createFileIfMissing() {
         try {
             Files.createDirectories(fPath.getParent());
@@ -31,8 +42,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from the storage file.
+     * @return A list of tasks read from the file, or empty if an error occurs.
+     */
     public List<Task> load() {
-        ArrayList<Task> TaskList = new ArrayList<>();
+        ArrayList<Task> taskList = new ArrayList<>();
         try {
             List<String> lines = Files.readAllLines(fPath);
 
@@ -48,15 +63,19 @@ public class Storage {
                     task.markAsDone();
                 }
 
-                TaskList.add(task);
+                taskList.add(task);
             });
         } catch (IOException e) {
             System.out.println("ERROR: Failed to read Memory");
             return new ArrayList<>();
         }
-        return TaskList;
+        return taskList;
     }
 
+    /**
+     * Saves tasks to the storage file.
+     * @param tasks The list of tasks to save.
+     */
     public void save(List<Task> tasks) {
         List<String> lines = new ArrayList<>();
         for (Task task : tasks) {

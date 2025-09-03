@@ -9,7 +9,7 @@ public class Ui {
     private final String bot;
 
     /**
-     * Constructs a Ui with the specified bot name.
+     * Constructs an Ui with the specified bot name.
      * @param bot The name of the bot.
      */
     public Ui(String bot) {
@@ -38,7 +38,7 @@ public class Ui {
      * @return Goodbye message string.
      */
     public String showGoodbye() {
-        return "see you again soon :( \n closing bot...";
+        return "see you again soon :( \n saving and closing bot...";
     }
 
     /**
@@ -56,7 +56,7 @@ public class Ui {
      * @return Unmarked task message.
      */
     public String showUnmarkedTask(Task task) {
-        return "Nice! I've marked this task as not done yet:" + task;
+        return "Nice! I've marked this task as not done yet: \n" + task;
     }
 
     /**
@@ -67,7 +67,7 @@ public class Ui {
      */
     public String showAddedTask(Task task, int size) {
         return "Got it. I've added this task: \n"
-                + task
+                + task + "\n"
                 + "Now you have " + size + " tasks in the list.";
     }
 
@@ -79,7 +79,7 @@ public class Ui {
      */
     public String showDeletedTask(Task task, int size) {
         return "Noted. I've removed this task:"
-                + task
+                + task + "\n"
                 + "Now you have " + size + " tasks in the list.";
     }
 
@@ -89,6 +89,6 @@ public class Ui {
      * @return Queried tasks message.
      */
     public String showQueriedTasks(String queried) {
-        return queried;
+        return "I tried my best... \n" + queried;
     }
 }
