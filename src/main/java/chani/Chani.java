@@ -12,49 +12,34 @@ public class Chani {
 
     /**
      * Class Constructor.
-     *
      * @param fPath txt file path for storage.
      */
     public Chani(String fPath) {
-        this.ui = new Ui("Chani");
         this.storage = new Storage(fPath);
+        this.ui = new Ui("Chani");
         tasks = new TaskList(storage.load());
     }
 
     /**
-     * Runs ChaniBot.
+     * Returns gui message for Chani bot.
+     * @param input text to return.
+     * @return Chani bot's message.
      */
-    public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
-
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                ui.showLine();
-                Command c = Parser.parse(fullCommand);
-                c.execute(tasks, ui, storage);
-                isExit = c.isExit();
-
-            } catch (ChaniException e) {
-                ui.showError(e.getMessage());
-            } finally {
-                ui.showLine();
-            }
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            String response = c.execute(tasks, ui, storage);
+            return "Chani: " + response;
+        } catch (ChaniException e) {
+            return e.getMessage();
         }
     }
 
     /**
-     * Returns gui message for Chani bot
-     * @param input text to return.
-     * @return Chani bot's message.
-     * @throws IllegalArgumentException If zone is <= 0.
+     * Returns gui greeting for Chani bot.
+     * @return greeting message.
      */
-    public String getResponse(String input) {
-        return "Duke heard: " + input;
-    }
-
-    public static void main(String[] args) {
-        new Chani("data/127-iq.txt").run();
+    public String getGreeting() {
+        return ui.showWelcome();
     }
 }
