@@ -45,6 +45,7 @@ test {
 
 application {
     mainClass.set("chani.Launcher")
+    applicationDefaultJvmArgs = ["-ea"]
 }
 
 shadowJar {

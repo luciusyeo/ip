@@ -1,5 +1,8 @@
 package chani.tasks;
 
+/**
+ * Represents a factory to create {@link EventTask} instances.
+ */
 public class EventTaskFactory implements TaskFactory {
     @Override
     public Task create(String... args) {
