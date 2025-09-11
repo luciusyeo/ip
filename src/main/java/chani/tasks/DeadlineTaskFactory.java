@@ -1,5 +1,8 @@
 package chani.tasks;
 
+/**
+ * Represents a factory to create {@link DeadlineTask} instances.
+ */
 public class DeadlineTaskFactory implements TaskFactory {
     @Override
     public Task create(String... args) {
