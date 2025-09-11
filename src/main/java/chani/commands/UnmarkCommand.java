@@ -8,14 +8,14 @@ import chani.tasks.Task;
 /**
  * Command to mark a {@link Task} in the {@link TaskList} as not done.
  */
-public class UnMarkCommand extends Command {
+public class UnmarkCommand extends Command {
 
     /**
      * Creates an UnMarkCommand with a command keyword and task ID.
      * @param command The command keyword (e.g., "unmark").
      * @param args The task ID to unmark (first argument).
      */
-    public UnMarkCommand(String command, String... args) {
+    public UnmarkCommand(String command, String... args) {
         super(command, args);
     }
 
@@ -27,7 +27,7 @@ public class UnMarkCommand extends Command {
     @Override
     public String execute(TaskList taskList, Ui ui, Storage storage) {
         int taskId = Integer.parseInt(args[0]);
-        Task task = taskList.get(taskId).markAsUnDone();
+        Task task = taskList.get(taskId).markAsUndone();
         return ui.showUnmarkedTask(task);
     }
 }

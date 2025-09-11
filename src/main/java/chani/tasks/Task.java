@@ -19,7 +19,7 @@ abstract public class Task {
         return this;
     }
 
-    public Task markAsUnDone() {
+    public Task markAsUndone() {
         this.isDone = false;
         return this;
     }

@@ -1,5 +1,7 @@
 package chani;
 
+import java.util.ArrayList;
+
 import chani.commands.AddCommand;
 import chani.commands.Command;
 import chani.commands.DeleteCommand;
@@ -7,13 +9,15 @@ import chani.commands.ExitCommand;
 import chani.commands.FindCommand;
 import chani.commands.ListCommand;
 import chani.commands.MarkCommand;
-import chani.commands.UnMarkCommand;
+import chani.commands.UnmarkCommand;
+
 
 /**
  * Parses user input strings into {@link Command} objects.
  */
 public class Parser {
-
+    private static final int COMMAND_NAME = 0;
+    private static final int COMMAND_ARGS = 1;
     /**
      * Parses the input string and returns the corresponding {@link Command}.
      * @param input The user input string.
@@ -21,85 +25,139 @@ public class Parser {
      * @throws ChaniException if the input is invalid or the command is unknown.
      */
     public static Command parse(String input) throws ChaniException {
-        String[] commandArgs = input.split(" ", 2);
-        String command = commandArgs[0];
+        String[] commandWithMaybeArgs = parseInput(input);
+        String command = commandWithMaybeArgs[COMMAND_NAME];
+        String rawArgs = commandWithMaybeArgs.length > 1 ? commandWithMaybeArgs[COMMAND_ARGS] : "";
 
-        switch (command) {
-        case "list":
-            // list
-            return new ListCommand(command);
-        case "bye":
-            // bye
-            return new ExitCommand(command);
-        case "mark": {
-            // mark <task_id>
-            validateSplit(commandArgs, "mark <task_id>");
-            String taskId = commandArgs[1];
-            return new MarkCommand(command, taskId);
+        return switch (command) {
+        case "list" -> {
+            requireNoArgs(rawArgs, command);
+            yield new ListCommand(command);
         }
-        case "unmark": {
-            // unmark <task_id>
-            validateSplit(commandArgs, "unmark <task_id>");
-            String taskId = commandArgs[1];
-            return new UnMarkCommand(command, taskId);
+        case "bye" -> {
+            requireNoArgs(rawArgs, command);
+            yield new ExitCommand(command);
         }
-        case "delete":
-            // delete <task_id>
-            validateSplit(commandArgs, "delete <task_id>");
-            String taskId = commandArgs[1];
-            return new DeleteCommand(command, taskId);
-        case "find": {
-            validateSplit(commandArgs, "find <query>");
-            String query = commandArgs[1];
-            return new FindCommand(command, query);
+        case "mark" -> {
+            String taskNumber = requireValidTaskNumber(rawArgs, "mark <task number>");
+            yield new MarkCommand(command, taskNumber);
         }
-        case "todo": {
-            //t.o.d.o <description>
-            validateSplit(commandArgs, "todo <desc>");
-
-            String desc = commandArgs[1];
-            return new AddCommand(command, desc);
+        case "unmark" -> {
+            String taskNumber = requireValidTaskNumber(rawArgs, "unmark <task number>");
+            yield new UnmarkCommand(command, taskNumber);
         }
-        case "deadline": {
-            //deadline <desc> /by <date>
-            validateSplit(commandArgs, "deadline <desc> /by <yyyy-mm-dd>");
-
-            String[] descDate = commandArgs[1].split(" /by ", 2);
-            validateSplit(descDate, "deadline <desc> /by <yyyy-mm-dd>");
-
-            return new AddCommand(command, descDate);
+        case "delete" -> {
+            String taskNumber = requireValidTaskNumber(rawArgs, "delete <task number>");
+            yield new DeleteCommand(command, taskNumber);
         }
-        case "event": {
-            //event <desc> /from /to
-            validateSplit(commandArgs, "event <desc> /from /to");
-
-            String[] descFromTo = commandArgs[1].split(" /from ", 2);
-            validateSplit(descFromTo, "event <desc> /from /to");
-
-            String[] fromTo = descFromTo[1].split(" /to ", 2);
-            validateSplit(fromTo, "event <desc> /from /to");
-
-            String desc = descFromTo[0];
-            String from = fromTo[0];
-            String to = fromTo[1];
-
-            return new AddCommand(command, desc, from, to);
+        case "find" -> {
+            String query = requireSingleArg(rawArgs, "find <query>");
+            yield new FindCommand(command, query);
         }
-        default:
-            throw new ChaniException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
+        case "todo" -> {
+            String desc = requireSingleArg(rawArgs, "todo <desc>");
+            yield new AddCommand(command, desc);
         }
+        case "deadline" -> {
+            String[] args = splitMultipleArgs(rawArgs, "deadline <desc> /by <yyyy-mm-dd>", " /by ");
+            yield new AddCommand(command, args);
+        }
+        case "event" -> {
+            String[] args = splitMultipleArgs(rawArgs, "event <desc> /from /to", " /from ", " /to ");
+            yield new AddCommand(command, args);
+        }
+        default -> throw new ChaniException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
+    };
 
     }
 
     /**
-     * Checks that the input array has at least two elements.
-     * @param input The array to check.
-     * @param message The message to include in the exception if invalid.
+     * Extracts the command name (in all inputs).
+     * @param input The input array to check.
+     * @return The command and optional args.
+     */
+    private static String[] parseInput(String input) {
+        String trimmed = input.trim();
+        return trimmed.split(" ", 2);
+    }
+
+    /**
+     * Splits and validates the args string.
+     * @param args The string of args to check.
+     * @param delimiters to split by.
+     * @param errorMessage The message returned as "Use [errorMessage] instead".
      * @throws ChaniException if the input array has less than 2 elements.
      */
-    private static void validateSplit(String[] input, String message) throws ChaniException {
-        if (input.length < 2) {
-            throw new ChaniException("Invalid Command: Use " + message + " instead");
+    private static String[] splitMultipleArgs(String args, String errorMessage, String... delimiters)
+            throws ChaniException {
+        if (args.isEmpty()) {
+            throw new ChaniException("Invalid Command: Use " + errorMessage + " instead");
         }
+        ArrayList<String> result = new ArrayList<>();
+        for (String delimiter: delimiters) {
+            String[] tokens = splitOnce(args, delimiter, errorMessage);
+            result.add(tokens[0]);
+            args = tokens[1];
+        }
+        result.add(args);
+        return result.toArray(new String[0]);
+    }
+
+    /**
+     * helper method used by {@link #splitMultipleArgs(String, String, String...)}.
+     * @param input The argument value to check.
+     * @param delimiter to split by.
+     * @param errorMessage The message returned as "Use [errorMessage] instead".
+     * @return array of split strings
+     * @throws ChaniException if the input array has less than 2 elements.
+     */
+    private static String[] splitOnce(String input, String delimiter, String errorMessage) throws ChaniException {
+        int numOfExpectedTokens = 2;
+
+        String[] tokens = input.split(delimiter, numOfExpectedTokens);
+        if (tokens.length < numOfExpectedTokens) {
+            throw new ChaniException("Invalid Command. Use " + errorMessage + " instead");
+        }
+        return tokens;
+    }
+
+    /**
+     * Ensures there is at least a single argument.
+     * @param args The argument value to check.
+     * @param errorMessage The message returned as "Use [errorMessage] instead".
+     * @return the single argument
+     * @throws ChaniException if the input array has less than 2 elements.
+     */
+    private static String requireSingleArg(String args, String errorMessage) throws ChaniException {
+        if (args.isEmpty()) {
+            throw new ChaniException("Invalid Command: Use " + errorMessage + " instead");
+        }
+        return args;
+    }
+
+    /**
+     * Ensures there are no arguments
+     * @param args The argument value to check.
+     * @param commandName The command name.
+     * @throws ChaniException if the input array has less than 2 elements.
+     */
+    private static void requireNoArgs(String args, String commandName) throws ChaniException {
+        if (!args.trim().isEmpty()) {
+            throw new ChaniException("The command '" + commandName + "' does not take arguments.");
+        }
+    }
+
+    /**
+     * Checks that the task number is a number and within range.
+     * @param args The argument to check.
+     * @throws ChaniException if the task number is not an integer.
+     */
+    private static String requireValidTaskNumber(String args, String errMessage) throws ChaniException {
+        try {
+            Integer.parseInt(args);
+        } catch (NumberFormatException e) {
+            throw new ChaniException("Invalid Command. Use " + errMessage + " instead");
+        }
+        return args;
     }
 }

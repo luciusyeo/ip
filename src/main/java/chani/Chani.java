@@ -26,13 +26,15 @@ public class Chani {
      * @return Chani bot's message.
      */
     public String getResponse(String input) {
+        String chatLabel = "Chani: ";
+        String response;
         try {
             Command c = Parser.parse(input);
-            String response = c.execute(tasks, ui, storage);
-            return "Chani: " + response;
-        } catch (ChaniException e) {
-            return e.getMessage();
+            response = c.execute(tasks, ui, storage);
+        } catch (ChaniException | NumberFormatException | IndexOutOfBoundsException e) {
+            response = e.getMessage();
         }
+        return chatLabel + response;
     }
 
     /**

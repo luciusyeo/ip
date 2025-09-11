@@ -6,14 +6,14 @@ import chani.tasks.Task;
  * Represents the ui messages of the chatbot
  */
 public class Ui {
-    private final String bot;
+    private final String botName;
 
     /**
      * Constructs an Ui with the specified bot name.
-     * @param bot The name of the bot.
+     * @param botName The name of the bot.
      */
-    public Ui(String bot) {
-        this.bot = bot;
+    public Ui(String botName) {
+        this.botName = botName;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Ui {
      * @return Welcome message string.
      */
     public String showWelcome() {
-        return "Hello! I'm " + bot + ", What can I do for you?";
+        return "Hello! I'm " + this.botName + ", What can I do for you?";
     }
 
     /**
@@ -38,7 +38,7 @@ public class Ui {
      * @return Goodbye message string.
      */
     public String showGoodbye() {
-        return "see you again soon :( \n saving and closing bot...";
+        return "See you again soon :( \n Saving and closing bot...";
     }
 
     /**
@@ -66,8 +66,9 @@ public class Ui {
      * @return Added task message.
      */
     public String showAddedTask(Task task, int size) {
+        String taskInfo = task.toString();
         return "Got it. I've added this task: \n"
-                + task + "\n"
+                + taskInfo + "\n"
                 + "Now you have " + size + " tasks in the list.";
     }
 
@@ -78,7 +79,7 @@ public class Ui {
      * @return Deleted task message.
      */
     public String showDeletedTask(Task task, int size) {
-        return "Noted. I've removed this task:"
+        return "Noted. I've removed this task: \n"
                 + task + "\n"
                 + "Now you have " + size + " tasks in the list.";
     }
