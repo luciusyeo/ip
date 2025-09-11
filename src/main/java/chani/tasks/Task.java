@@ -36,12 +36,12 @@ public abstract class Task {
         return this;
     }
 
-    /**
+     /**
      * Marks the task as undone.
      *
      * @return This task instance, marked undone.
      */
-    public Task markAsUnDone() {
+    public Task markAsUndone() {
         this.isDone = false;
         return this;
     }

@@ -24,16 +24,26 @@ public class TaskList {
      * @return The size of the task list.
      */
     public int size() {
-        return tasks.size();
+        return this.tasks.size();
     }
 
     /**
      * Gets a task by its 1-based indexing.
-     * @param i The 1-based index of the task.
+     * @param taskNumber The 1-based index of the tasks displayed.
      * @return The task at the specified index.
+     * @throws IndexOutOfBoundsException if the index is less than 1 or greater than the list size.
      */
-    public Task get(int i) {
-        return tasks.get(i - 1);
+    public Task get(int taskNumber) {
+        boolean outsideMinRange = taskNumber < 1;
+        boolean outsideMaxRange = taskNumber > tasks.size();
+
+        if (outsideMinRange || outsideMaxRange) {
+            throw new IndexOutOfBoundsException(
+                    "Invalid task number " + taskNumber + ". Must be between 1 and " + tasks.size()
+            );
+        }
+        int i = taskNumber - 1;
+        return this.tasks.get(i);
     }
 
     /**
@@ -41,14 +51,14 @@ public class TaskList {
      * @param task The task to remove.
      */
     public void remove(Task task) {
-        tasks.remove(task);
+        this.tasks.remove(task);
     }
     /**
      * Adds a task to the list.
      * @param task The task to add.
      */
     public void add(Task task) {
-        tasks.add(task);
+        this.tasks.add(task);
     }
 
     /**
@@ -58,8 +68,9 @@ public class TaskList {
      */
     public List<Task> find(String keyword) {
         List<Task> matches = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getDescription().contains(keyword)) {
+        for (Task task : this.tasks) {
+            String description = task.getDescription();
+            if (description.contains(keyword)) {
                 matches.add(task);
             }
         }
@@ -71,6 +82,6 @@ public class TaskList {
      * @return The list of all tasks.
      */
     public List<Task> getAllTasks() {
-        return tasks;
+        return this.tasks;
     }
 }
