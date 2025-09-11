@@ -103,12 +103,13 @@ public class Parser {
             throw new ChaniException("Invalid Command: Use " + errorMessage + " instead");
         }
         ArrayList<String> result = new ArrayList<>();
+        String remaining = args;
         for (String delimiter: delimiters) {
-            String[] tokens = splitOnce(args, delimiter, errorMessage);
+            String[] tokens = splitOnce(remaining, delimiter, errorMessage);
             result.add(tokens[0]);
-            args = tokens[1];
+            remaining = tokens[1];
         }
-        result.add(args);
+        result.add(remaining);
         return result.toArray(new String[0]);
     }
 
