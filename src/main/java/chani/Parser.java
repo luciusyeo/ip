@@ -1,5 +1,7 @@
 package chani;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import chani.commands.AddCommand;
@@ -59,15 +61,22 @@ public class Parser {
             yield new AddCommand(command, desc);
         }
         case "deadline" -> {
-            String[] args = splitMultipleArgs(rawArgs, "deadline <desc> /by <yyyy-mm-dd>", " /by ");
+            String errMessage = "deadline <desc> /by <yyyy-mm-dd>";
+            String[] args = splitMultipleArgs(rawArgs, errMessage, " /by ");
+            requireValidDateFormat(args[1], errMessage);
             yield new AddCommand(command, args);
         }
         case "event" -> {
             String[] args = splitMultipleArgs(rawArgs, "event <desc> /from /to", " /from ", " /to ");
             yield new AddCommand(command, args);
         }
+        case "period" -> {
+            String[] args = splitMultipleArgs(rawArgs, "period <desc> /between /and", " /between ", " /and ");
+            yield new AddCommand(command, args);
+        }
+
         default -> throw new ChaniException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
-    };
+        };
 
     }
 
@@ -160,4 +169,19 @@ public class Parser {
         }
         return args;
     }
+
+    /**
+     * Checks that the date is valid.
+     * @param date The argument to check.
+     * @throws ChaniException if the task number is not an integer.
+     */
+    private static String requireValidDateFormat(String date, String errMessage) throws ChaniException {
+        try {
+            LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            throw new ChaniException("Invalid Command. Use " + errMessage + " instead");
+        }
+        return date;
+    }
+
 }
