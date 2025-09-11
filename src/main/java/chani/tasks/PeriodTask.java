@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Represents an Event task with a start and end.
  */
-public class EventTask extends Task {
+public class PeriodTask extends Task {
     protected String start;
     protected String end;
 
@@ -16,8 +16,8 @@ public class EventTask extends Task {
      * @param start The start date/time.
      * @param end The end date/time.
      */
-    public EventTask(String description, String start, String end) {
-        super(description, "E");
+    public PeriodTask(String description, String start, String end) {
+        super(description, "P");
 
         assert start != null : "Event start time cannot be null";
         assert end != null : "Event end time cannot be null";
@@ -36,6 +36,6 @@ public class EventTask extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + start + " to: " + end + ")";
+        return "[P]" + super.toString() + " (between " + start + " and " + end + ")";
     }
 }

@@ -13,16 +13,20 @@ public class TaskRegistry {
         DeadlineTaskFactory deadlineFactory = new DeadlineTaskFactory();
         TodoTaskFactory toDoFactory = new TodoTaskFactory();
         EventTaskFactory eventFactory = new EventTaskFactory();
+        PeriodTaskFactory periodFactory = new PeriodTaskFactory();
 
         // chani.Storage identifiers
         registry.put("d", deadlineFactory);
         registry.put("t", toDoFactory);
         registry.put("e", eventFactory);
+        registry.put("p", periodFactory);
 
         // CLI identifiers
         registry.put("deadline", deadlineFactory);
         registry.put("todo", toDoFactory);
         registry.put("event", eventFactory);
+        registry.put("period", periodFactory);
+
     }
 
     public TaskRegistry() {
