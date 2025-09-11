@@ -35,8 +35,7 @@ public abstract class Task {
         this.isDone = true;
         return this;
     }
-
-     /**
+    /**
      * Marks the task as undone.
      *
      * @return This task instance, marked undone.
