@@ -1,6 +1,9 @@
 package chani.tasks;
 
-public class TodoTaskFactory implements TaskFactory{
+/**
+ * Represents a factory to create {@link ToDoTask} instances.
+ */
+public class TodoTaskFactory implements TaskFactory {
     @Override
     public Task create(String... args) {
         if (args.length < 1) {

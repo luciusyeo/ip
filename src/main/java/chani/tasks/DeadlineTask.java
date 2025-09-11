@@ -6,11 +6,23 @@ import java.util.List;
 
 //TODO: Catch this.by DateTime errors
 
-public class DeadlineTask extends Task{
+/**
+ * Represents a deadline task with a description and a due date.
+ */
+public class DeadlineTask extends Task {
     protected LocalDate by;
 
+    /**
+     * Constructor.
+     *
+     * @param description The task description.
+     * @param by The due date in yyyy-MM-dd format.
+     */
     public DeadlineTask(String description, String by) {
-        super(description,"D");
+        super(description, "D");
+
+        assert by != null : "DeadlineTask date string cannot be null";
+
         this.by = LocalDate.parse(by);
     }
 
