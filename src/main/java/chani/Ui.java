@@ -7,7 +7,6 @@ import chani.tasks.Task;
  */
 public class Ui {
     private final String botName;
-
     /**
      * Constructor.
      * @param botName The name of the bot.

@@ -38,12 +38,11 @@ public class MainWindow extends AnchorPane {
     /** Injects the Chani instance */
     public void setChani(Chani c) {
         this.chani = c;
-
+        String initMessage = chani.getInitMessage();
         String greeting = chani.getGreeting();
         dialogContainer.getChildren().add(
-                DialogBox.getChaniDialog(greeting, chaniImage)
+                DialogBox.getChaniDialog(String.format(initMessage + "%n" + greeting), chaniImage)
         );
-
     }
 
     /**
