@@ -34,10 +34,10 @@ public class TaskList {
      * @throws IndexOutOfBoundsException if the index is less than 1 or greater than the list size.
      */
     public Task get(int taskNumber) {
-        boolean outsideMinRange = taskNumber < 1;
-        boolean outsideMaxRange = taskNumber > tasks.size();
+        boolean isOutsideMinRange = taskNumber < 1;
+        boolean isOutsideMaxRange = taskNumber > tasks.size();
 
-        if (outsideMinRange || outsideMaxRange) {
+        if (isOutsideMinRange || isOutsideMaxRange) {
             throw new IndexOutOfBoundsException(
                     "Invalid task number " + taskNumber + ". Must be between 1 and " + tasks.size()
             );
