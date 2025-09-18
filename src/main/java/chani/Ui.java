@@ -9,7 +9,7 @@ public class Ui {
     private final String botName;
 
     /**
-     * Constructs an Ui with the specified bot name.
+     * Constructor.
      * @param botName The name of the bot.
      */
     public Ui(String botName) {
@@ -25,7 +25,7 @@ public class Ui {
     }
 
     /**
-     * Returns a message showing the list of tasks.
+     * Returns the formatted message of the taskList.
      * @param taskList The string representation of tasks.
      * @return Task list message.
      */
@@ -34,7 +34,7 @@ public class Ui {
     }
 
     /**
-     * Returns the goodbye message of the bot.
+     * Returns the formatted goodbye message of the bot.
      * @return Goodbye message string.
      */
     public String showGoodbye() {
