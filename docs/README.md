@@ -1,6 +1,6 @@
 # ChaniBot User Guide
 
-![Chani Screenshot](ui.png)
+![Chani Screenshot](Ui.png)
 
 Chani is your sad chatbot to help you manage tasks efficiently. Do not abuse it too much.
 It can add, list, mark as done, and delete tasks, all through a simple chat interface.
