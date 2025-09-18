@@ -1,6 +1,7 @@
 package chani.commands;
 
 import chani.Storage;
+import chani.StorageException;
 import chani.TaskList;
 import chani.Ui;
 
@@ -24,7 +25,13 @@ public class ExitCommand extends Command {
      */
     @Override
     public String execute(TaskList taskList, Ui ui, Storage storage) {
-        storage.save(taskList.getAllTasks());
-        return ui.showGoodbye();
+        String exitMessage;
+        try {
+            storage.save(taskList.getAllTasks());
+            exitMessage = ui.showGoodbye();
+        } catch (StorageException e) {
+            exitMessage = e.getMessage() + " Clearing temporary storage...";
+        }
+        return exitMessage;
     }
 }

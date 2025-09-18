@@ -23,23 +23,24 @@ public class Storage {
      * Creates a Storage instance for the specified file path.
      * @param fPath The file path for storing tasks.
      */
-    public Storage(String fPath) {
+    public Storage(String fPath) throws StorageException {
         this.fPath = Paths.get(fPath);
         createFileIfMissing();
+
     }
 
     /**
      * Creates the file and parent directories if they do not exist.
+     * @throws StorageException if failed to create a file
      */
-    private void createFileIfMissing() {
+    private void createFileIfMissing() throws StorageException {
         try {
             Files.createDirectories(fPath.getParent());
             if (Files.notExists(fPath)) {
                 Files.createFile(fPath);
             }
         } catch (IOException e) {
-            //meant for developer
-            System.out.println("ERROR: Failed to create or load 127-iq memory");
+            throw new StorageException("Failed to initialize storage file: " + fPath);
         }
     }
 
@@ -48,20 +49,20 @@ public class Storage {
      * Atomic read from files, either reads all lines or fails to read any
      * @return A list of tasks read from the file, or empty if an error occurs.
      */
-    public List<Task> load() {
-        List<Task> taskList = new ArrayList<>();
+    public List<Task> load() throws StorageException {
         try {
             List<String> lines = Files.readAllLines(fPath);
+            List<Task> taskList = new ArrayList<>();
             for (String line : lines) {
                 Task task = deserializeTask(line);
                 if (task != null) {
                     taskList.add(task);
                 }
             }
+            return taskList;
         } catch (IOException e) {
-            System.out.println("ERROR: Failed to read Memory");
+            throw new StorageException("Failed to load tasks from file.");
         }
-        return taskList;
     }
 
     /**
@@ -94,7 +95,7 @@ public class Storage {
      * Saves tasks to the storage file.
      * @param tasks The list of tasks to save.
      */
-    public void save(List<Task> tasks) {
+    public void save(List<Task> tasks) throws StorageException {
         List<String> lines = new ArrayList<>();
         for (Task task : tasks) {
             String[] arr = task.toAttributeList().toArray(new String[0]);
@@ -104,7 +105,7 @@ public class Storage {
         try {
             Files.write(fPath, lines);
         } catch (IOException e) {
-            System.out.println("ERROR: Failed to write to Memory");
+            throw new StorageException("Failed to save to path " + fPath);
         }
 
     }

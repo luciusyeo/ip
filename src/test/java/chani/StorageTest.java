@@ -25,11 +25,14 @@ class StorageTest {
         Files.deleteIfExists(tempFile);
     }
 
+
     @Test
     void load_EmptyFile_returnsEmptyList() {
-        Storage storage = new Storage(tempFile.toString());
-        List<Task> tasks = storage.load();
-        assertTrue(tasks.isEmpty());
+        Storage storage = assertDoesNotThrow(() -> new Storage(tempFile.toString()));
+
+        List<Task> tasks = assertDoesNotThrow(storage::load);
+
+        assertTrue(tasks.isEmpty(), "Expected empty list for empty storage file");
     }
 
     @Test
