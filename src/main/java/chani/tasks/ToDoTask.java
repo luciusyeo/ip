@@ -18,8 +18,8 @@ public class ToDoTask extends Task {
     }
 
     @Override
-    public List<String> toStringList() {
-        return super.toStringList();
+    public List<String> toAttributeList() {
+        return super.toAttributeList();
     }
 
     @Override

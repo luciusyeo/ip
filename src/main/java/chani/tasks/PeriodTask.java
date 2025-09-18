@@ -27,8 +27,8 @@ public class PeriodTask extends Task {
     }
 
     @Override
-    public List<String> toStringList() {
-        List<String> list = super.toStringList();
+    public List<String> toAttributeList() {
+        List<String> list = super.toAttributeList();
         list.add(start);
         list.add(end);
         return list;

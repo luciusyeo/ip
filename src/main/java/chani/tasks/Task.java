@@ -54,11 +54,11 @@ public abstract class Task {
     }
 
     /**
-     * Returns information about the task object.
+     * Returns information about the task object in terms of its attributes
      *
      * @return A {@link List} of strings representing this task
      */
-    public List<String> toStringList() {
+    public List<String> toAttributeList() {
         String done = isDone() ? "1" : "0";
         return new ArrayList<>(List.of(identifier, done, description));
     }
