@@ -27,8 +27,8 @@ public class DeadlineTask extends Task {
     }
 
     @Override
-    public List<String> toStringList() {
-        List<String> list = super.toStringList();
+    public List<String> toAttributeList() {
+        List<String> list = super.toAttributeList();
         list.add(by.toString());
         return list;
     }
